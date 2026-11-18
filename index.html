@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Agent Stamp — free daily stamp for Agent ID holders on BNB Smart Chain.">
+  <title>Agent Stamp — free daily stamp for Agent ID holders</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="stamp-mark" aria-hidden="true">&#9993;</span>
+      <div>
+        <h1>Agent Stamp</h1>
+        <p class="tagline">Free daily stamp for Agent ID holders</p>
+      </div>
+    </div>
+    <button id="connectBtn" class="btn btn-primary" type="button">Connect Wallet</button>
+  </header>
+
+  <main class="container">
+    <p id="deployNotice" class="notice" hidden>
+      Contract not deployed yet — leaderboard and stats will appear after deployment.
+    </p>
+
+    <p id="noWalletBox" class="notice notice-warn" hidden>
+      No wallet detected. Open this page inside the
+      <strong>Binance Wallet</strong> or <strong>MetaMask</strong> mobile app browser,
+      then tap Connect Wallet.
+    </p>
+
+    <p id="wrongChainBox" class="notice notice-warn" hidden>
+      You are not on BNB Smart Chain.
+      <button id="switchChainBtn" class="btn btn-small" type="button">Switch to BSC (Chain 56)</button>
+    </p>
+
+    <p id="statusLine" class="status" role="status">Not connected. Connect your wallet to check your Agent ID.</p>
+
+    <!-- Wallet / eligibility -->
+    <section class="card" id="walletCard" aria-label="Wallet">
+      <h2>Your wallet</h2>
+      <dl class="kv">
+        <div><dt>Address</dt><dd id="walletAddress">—</dd></div>
+        <div><dt>Network</dt><dd id="networkName">—</dd></div>
+        <div><dt>Agent ID</dt><dd id="agentIdStatus">—</dd></div>
+      </dl>
+      <p id="notHolderNote" class="hint" hidden>
+        This wallet holds no Agent ID. A free Agent ID is required to mint a stamp.
+      </p>
+    </section>
+
+    <!-- Mint -->
+    <section class="card mint-card" aria-label="Mint today's stamp">
+      <h2>Today&rsquo;s stamp</h2>
+      <p class="hint">One free stamp per day, per Agent ID holder. Gas only — mint costs 0 BNB.</p>
+      <p class="today">Today (UTC): <span id="todayDate">—</span></p>
+      <button id="mintBtn" class="btn btn-primary btn-large" type="button" disabled>Mint Stamp Hari Ini</button>
+      <p id="alreadyMinted" class="already" hidden>
+        Already minted today — come back tomorrow.<br>
+        Next stamp in <span id="countdown">—</span>
+      </p>
+      <p id="txStatus" class="tx-status" role="status"></p>
+      <p id="mintResult" class="mint-result" hidden></p>
+    </section>
+
+    <!-- Streak -->
+    <section class="card" aria-label="Your streak">
+      <h2>Your streak</h2>
+      <div class="stat-grid">
+        <div class="stat"><span class="stat-value" id="currentStreak">—</span><span class="stat-label">Current streak (days)</span></div>
+        <div class="stat"><span class="stat-value" id="bestStreak">—</span><span class="stat-label">Best streak (days)</span></div>
+        <div class="stat"><span class="stat-value" id="lastMintDay">—</span><span class="stat-label">Last mint (UTC)</span></div>
+      </div>
+      <p class="hint">Mint every day to keep your streak alive. Miss a day and it resets to 1 on your next mint.</p>
+    </section>
+
+    <!-- Stats -->
+    <section class="card" aria-label="Stats">
+      <h2>Stats</h2>
+      <div class="stat-grid">
+        <div class="stat"><span class="stat-value" id="totalMinted">—</span><span class="stat-label">Total stamps minted</span></div>
+      </div>
+    </section>
+
+    <!-- Leaderboard -->
+    <section class="card" aria-label="Leaderboard">
+      <div class="section-head">
+        <h2>Leaderboard — top 10 best streaks</h2>
+        <button id="refreshBoardBtn" class="btn btn-small" type="button">Refresh</button>
+      </div>
+      <p class="hint">Auto-refreshes every 30 seconds.</p>
+      <div class="table-wrap">
+        <table id="leaderboard">
+          <thead>
+            <tr><th>#</th><th>Address</th><th>Best streak</th></tr>
+          </thead>
+          <tbody id="leaderboardBody">
+            <tr><td colspan="3" class="empty">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p id="boardNote" class="hint"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>
+      Agent ID contract:
+      <a href="https://bscscan.com/address/0x60b9262456de011f7d15a54cdd8c48baaa8b022f" target="_blank" rel="noopener">0x60b9262456de011f7d15a54cdd8c48baaa8b022f</a>
+    </p>
+    <p>
+      Agent Stamp contract:
+      <a id="contractLink" href="https://bscscan.com/address/0x0000000000000000000000000000000000000000" target="_blank" rel="noopener">0x0000000000000000000000000000000000000000</a>
+      <span class="muted">(not deployed yet)</span>
+    </p>
+    <p>No owner, no fees, no login — your wallet is your identity.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
